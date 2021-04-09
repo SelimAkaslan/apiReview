@@ -1,11 +1,17 @@
 package api;
 
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 import static org.hamcrest.Matchers.*;
+
+import org.junit.Assert;
 import org.junit.Test;
 import utilities.TestBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.*;
 
@@ -38,11 +44,28 @@ When
                 statusCode(200).
                 contentType("application/JSON").
                 body("data.id", hasSize(24),
-                        "data.employee_age",hasItem(61),
+                        "data.employee_age",hasItem("61"),
                         "data.employee_salary",hasItems("320800", "162700", "205500"));
 
+    }
 
+    // jsonpath ile cozumu
+    @Test
+    public void test02(){
+        Response response = given().spec(spec02).when().get();
+        response.prettyPrint();
 
+        JsonPath jsonPath = response.jsonPath();
 
+        System.out.println(jsonPath.getList("data.profile_image").size());
+        Assert.assertEquals(24,jsonPath.getList("data.profile_image").size());
+        Assert.assertTrue(jsonPath.getString("data.employee_age").contains("61"));
+
+        List<String> salary = new ArrayList<>();
+        salary.add("320800");
+        salary.add("162700");
+        salary.add("205500");
+
+        Assert.assertTrue(jsonPath.getList("data.employee_salary").containsAll(salary));
     }
 }
