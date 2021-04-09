@@ -7,7 +7,7 @@ import org.junit.Before;
 public class TestBase {
 
     protected RequestSpecification spec01;
-
+    protected RequestSpecification spec02;
 
 
     @Before
@@ -15,5 +15,9 @@ public class TestBase {
         spec01 =new RequestSpecBuilder().
                 setBaseUri("https://jsonplaceholder.typicode.com/todos")
                 .build();
+
+        spec02= new RequestSpecBuilder().
+                setBaseUri("http://dummy.restapiexample.com/api/v1/employees").
+                build();
     }
 }

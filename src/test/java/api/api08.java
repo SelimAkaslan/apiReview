@@ -24,7 +24,10 @@ public class api08 extends TestBase {
     * */
     @Test
     public void test(){
-       Response response = given().spec(spec01).when().get();
+       Response response = given().
+               spec(spec01).
+               when().
+               get();
        response.prettyPrint();
        response.
                then().
